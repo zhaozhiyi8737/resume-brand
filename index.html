@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="description" content="个人简历 · 创意设计风格" />
+  <!-- 尽早执行移动端检测：在任何样式表之前给 <html> 加 is-mobile 类，
+       确保微信内置浏览器等移动环境在 CSS 首次解析时就是移动布局，杜绝闪烁或时序问题。 -->
+  <script>
+    (function () {
+      try {
+        var ua = navigator.userAgent || "";
+        // 1. UA 检测移动设备
+        var isMobileUA = /Mobile|Android(?!.*Tablet)|iPhone|iPod|Windows Phone|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+        // 2. 屏幕物理宽度（不受 viewport meta 影响，X5 内核首次渲染时也是准确的）
+        var isSmallScreen = (screen.width <= 768);
+        // 3. 视口宽度（viewport meta 生效后的 CSS 像素宽度，X5 首帧可能为 980）
+        var isNarrowViewport = (window.innerWidth <= 768);
+        // 4. 微信环境标识（仅标记，不自动决定布局）
+        var isWechat = /MicroMessenger/i.test(ua);
+        // 综合判断：移动 UA 或物理屏幕小 或 视口窄 → 手机布局
+        if (isMobileUA || isSmallScreen || isNarrowViewport) {
+          document.documentElement.classList.add("is-mobile");
+        }
+        if (isWechat) {
+          document.documentElement.classList.add("is-wechat");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <title>个人简历 · Personal Resume</title>
+  <!-- 禁缓存：微信内置浏览器对静态资源缓存激进，显式声明不缓存确保用户拿到最新版本 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="icon" href="assets/avatar-placeholder.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/reset.css?v=2" />
+  <link rel="stylesheet" href="css/theme.css?v=2" />
+  <link rel="stylesheet" href="css/layout.css?v=2" />
+  <link rel="stylesheet" href="css/resume.css?v=2" />
+  <link rel="stylesheet" href="css/admin.css?v=2" />
+</head>
+<body data-mode="view">
+  <!-- 顶部进度条 -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- 左侧导航（PC）/ 顶部汉堡（移动） -->
+  <header class="nav" id="nav">
+    <div class="nav__brand">
+      <span class="nav__brand-mark" id="navBrand">·</span>
+      <span class="nav__brand-text" id="navBrandText">RESUME</span>
+    </div>
+    <button class="nav__toggle" id="navToggle" aria-label="菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav__menu" id="navMenu" aria-label="模块导航">
+      <a href="#hero" class="nav__link" data-target="hero">关于</a>
+      <a href="#education" class="nav__link" data-target="education">教育</a>
+      <a href="#internships" class="nav__link" data-target="internships">实习</a>
+      <a href="#work" class="nav__link" data-target="work">工作</a>
+      <a href="#projects" class="nav__link" data-target="projects">项目</a>
+      <a href="#research" class="nav__link" data-target="research">科研</a>
+      <a href="#honors" class="nav__link" data-target="honors">荣誉</a>
+      <a href="#self-eval" class="nav__link" data-target="self-eval">评价</a>
+    </nav>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="main" id="main">
+    <section id="hero" class="section section--hero" data-module="profile"><!-- render.js 注入 --></section>
+    <section id="education" class="section section--timeline" data-module="education">
+      <div class="section__head"><span class="section__index">01</span><h2 class="section__title">教育背景</h2></div>
+      <div class="section__body" data-list="education"></div>
+    </section>
+    <section id="internships" class="section section--timeline" data-module="internships">
+      <div class="section__head"><span class="section__index">02</span><h2 class="section__title">实习经历</h2></div>
+      <div class="section__body" data-list="internships"></div>
+    </section>
+    <section id="work" class="section section--timeline" data-module="work">
+      <div class="section__head"><span class="section__index">03</span><h2 class="section__title">工作经历</h2></div>
+      <div class="section__body" data-list="work"></div>
+    </section>
+    <section id="projects" class="section section--grid" data-module="projects">
+      <div class="section__head"><span class="section__index">04</span><h2 class="section__title">项目经历</h2></div>
+      <div class="section__body section__body--grid" data-list="projects"></div>
+    </section>
+    <section id="research" class="section section--grid" data-module="research">
+      <div class="section__head"><span class="section__index">05</span><h2 class="section__title">科研经历</h2></div>
+      <div class="section__body section__body--grid" data-list="research"></div>
+    </section>
+    <section id="honors" class="section" data-module="honors">
+      <div class="section__head"><span class="section__index">06</span><h2 class="section__title">所获荣誉</h2></div>
+      <div class="section__body section__body--badges" data-list="honors"></div>
+    </section>
+    <section id="self-eval" class="section section--prose" data-module="selfEval">
+      <div class="section__head"><span class="section__index">07</span><h2 class="section__title">自我评价</h2></div>
+      <div class="section__body prose" data-field="selfEval"></div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer" id="footer"><!-- render.js 注入 --></footer>
+
+  <!-- 二维码悬浮按钮 -->
+  <button class="qr-fab" id="qrFab" aria-label="生成二维码" title="生成访问二维码">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v7M14 21h3M17 17h4"/></svg>
+  </button>
+
+  <!-- 二维码弹窗 -->
+  <div class="qr-modal" id="qrModal" hidden>
+    <div class="qr-modal__backdrop" data-close></div>
+    <div class="qr-modal__panel" role="dialog" aria-modal="true" aria-label="访问二维码">
+      <button class="qr-modal__close" data-close aria-label="关闭">×</button>
+      <h3 class="qr-modal__title">扫码访问本页</h3>
+      <div class="qr-modal__canvas-wrap">
+        <div id="qrCanvas" class="qr-modal__canvas"></div>
+      </div>
+      <p class="qr-modal__hint">微信扫一扫 · 自动适配手机端</p>
+      <div class="qr-modal__url" id="qrUrl"></div>
+      <div class="qr-modal__actions">
+        <button class="btn btn--ghost" id="qrDownloadPng">下载 PNG</button>
+        <button class="btn btn--ghost" id="qrDownloadSvg">下载 SVG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 后台：登录层 -->
+  <div class="admin-gate" id="adminGate" hidden>
+    <div class="admin-gate__box">
+      <div class="admin-gate__brand">后台管理</div>
+      <p class="admin-gate__sub">请输入管理密码（默认 admin123）</p>
+      <form id="loginForm" class="admin-gate__form">
+        <input type="password" id="loginPwd" class="admin-gate__input" placeholder="管理密码" autocomplete="current-password" required />
+        <button type="submit" class="btn btn--primary admin-gate__submit">登录</button>
+      </form>
+      <p class="admin-gate__err" id="loginErr" hidden></p>
+      <button type="button" class="admin-gate__cancel" data-leave-admin>返回前台</button>
+    </div>
+  </div>
+
+  <!-- 后台：编辑模式工具栏 -->
+  <div class="admin-bar" id="adminBar" hidden>
+    <div class="admin-bar__left">
+      <span class="admin-bar__dot"></span> 编辑模式
+    </div>
+    <div class="admin-bar__right">
+      <button class="admin-bar__btn" id="exportJson">导出 JSON</button>
+      <button class="admin-bar__btn" id="importJson">导入 JSON</button>
+      <button class="admin-bar__btn" id="changePwd">修改密码</button>
+      <button class="admin-bar__btn admin-bar__btn--danger" id="resetData">重置数据</button>
+      <button class="admin-bar__btn" data-leave-admin>退出编辑</button>
+    </div>
+    <input type="file" id="importFile" accept="application/json,.json" hidden />
+  </div>
+
+  <!-- 通用编辑弹窗（记录表单） -->
+  <div class="editor" id="editor" hidden>
+    <div class="editor__backdrop" data-close-editor></div>
+    <div class="editor__panel" role="dialog" aria-modal="true">
+      <button class="editor__close" data-close-editor aria-label="关闭">×</button>
+      <h3 class="editor__title" id="editorTitle">编辑</h3>
+      <form class="editor__form" id="editorForm"><!-- admin.js 动态生成字段 --></form>
+    </div>
+  </div>
+
+  <!-- 通用提示 toast -->
+  <div class="toast" id="toast" hidden></div>
+
+  <!-- 脚本 -->
+  <script src="lib/qrcode.min.js?v=2"></script>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/store.js?v=2"></script>
+  <script src="js/render.js?v=2"></script>
+  <script src="js/qrcode-btn.js?v=2"></script>
+  <script src="js/admin.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+</body>
+</html>

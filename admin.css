@@ -1,0 +1,476 @@
+/* ===== admin.css — 后台编辑层样式 ===== */
+
+/* ---------- 登录层 ---------- */
+.admin-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  background: rgba(5, 5, 9, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.admin-gate[hidden] { display: none; }
+.admin-gate__box {
+  width: min(360px, 100%);
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 2.2rem 1.8rem 1.6rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.admin-gate__brand {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
+}
+.admin-gate__sub {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  margin-bottom: 1.4rem;
+}
+.admin-gate__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.admin-gate__input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 1rem;
+}
+.admin-gate__input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.admin-gate__submit {
+  width: 100%;
+}
+.admin-gate__err {
+  color: #ff6b8a;
+  font-size: 0.85rem;
+  min-height: 1.2em;
+}
+.admin-gate__cancel {
+  margin-top: 0.6rem;
+  color: var(--text-faint);
+  font-size: 0.82rem;
+}
+.admin-gate__cancel:hover {
+  color: var(--text);
+}
+
+/* ---------- 编辑模式顶部工具栏 ---------- */
+.admin-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1150;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.55rem 1rem;
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-strong);
+  font-size: 0.85rem;
+}
+.admin-bar[hidden] { display: none; }
+.admin-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.admin-bar__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--grad);
+  box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.2);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.2); }
+  50% { box-shadow: 0 0 0 7px rgba(236, 72, 153, 0.05); }
+}
+.admin-bar__right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+.admin-bar__btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  transition: all var(--dur) var(--ease);
+}
+.admin-bar__btn:hover {
+  color: #fff;
+  border-color: var(--accent);
+}
+.admin-bar__btn--danger:hover {
+  border-color: #ff6b8a;
+  color: #ff6b8a;
+}
+
+/* 编辑模式下，主体下移避免被工具栏遮挡 */
+body[data-mode="admin"] .scroll-progress { top: 46px; }
+body[data-mode="admin"] .nav { top: 46px; }
+
+/* ---------- 卡片上的编辑控件 ---------- */
+.card-admin-controls,
+.badge-admin-controls {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  display: flex;
+  gap: 0.3rem;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.card:hover .card-admin-controls,
+.badge:hover .badge-admin-controls,
+.timeline-item:hover .card-admin-controls {
+  opacity: 1;
+}
+body.is-editing .card-admin-controls,
+body.is-editing .badge-admin-controls {
+  opacity: 1;   /* 触屏设备无 hover，编辑模式常显 */
+}
+.adm-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: all var(--dur) var(--ease);
+}
+.adm-btn:hover {
+  color: #fff;
+  border-color: var(--accent);
+  transform: scale(1.08);
+}
+.adm-btn--del:hover {
+  border-color: #ff6b8a;
+  color: #ff6b8a;
+}
+.adm-btn--drag {
+  cursor: grab;
+}
+.adm-btn--drag:active {
+  cursor: grabbing;
+}
+
+.card.dragging,
+.badge.dragging {
+  opacity: 0.4;
+}
+.card.drag-over,
+.badge.drag-over {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.3);
+}
+
+/* 新增记录按钮 */
+.add-record {
+  margin-top: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  transition: all var(--dur) var(--ease);
+}
+.add-record:hover {
+  color: #fff;
+  border-color: var(--accent);
+  border-style: solid;
+  background: var(--grad-soft);
+}
+.add-record::before {
+  content: "+";
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* hero 编辑按钮 */
+.hero-edit-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.hero { position: relative; }
+
+/* ---------- 编辑弹窗 ---------- */
+.editor {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.editor[hidden] { display: none; }
+.editor__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.editor__panel {
+  position: relative;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  width: min(640px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.8rem 1.6rem 1.4rem;
+  box-shadow: var(--shadow);
+}
+.editor__close {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--text-faint);
+}
+.editor__close:hover { color: #fff; }
+.editor__title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  margin-bottom: 1.2rem;
+}
+.editor__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* 表单字段 */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.field__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.field__hint {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+.field input[type="text"],
+.field input[type="month"],
+.field input[type="url"],
+.field textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: border-color var(--dur) var(--ease);
+}
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.field textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.6;
+}
+
+/* 头像/图片字段：预览 + 上传 + URL */
+.field--image {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+}
+.field--image .img-preview {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-strong);
+  flex-shrink: 0;
+  background: var(--bg-elev-2);
+}
+.field--image .img-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* 富文本工具栏 */
+.rte {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.rte__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  padding: 0.4rem;
+  background: var(--bg-elev-2);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.rte__btn {
+  min-width: 32px;
+  height: 30px;
+  padding: 0 0.5rem;
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s var(--ease);
+}
+.rte__btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+.rte__btn.active {
+  background: var(--grad-soft);
+  color: #fff;
+}
+.rte__sep {
+  width: 1px;
+  background: var(--border);
+  margin: 0.2rem 0.15rem;
+}
+.rte__content {
+  min-height: 120px;
+  padding: 0.8rem;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  outline: none;
+  background: var(--bg);
+}
+.rte__content:focus {
+  background: rgba(236, 72, 153, 0.03);
+}
+.rte__content:empty::before {
+  content: attr(data-placeholder);
+  color: var(--text-faint);
+}
+.rte__content p { margin-bottom: 0.6em; }
+.rte__content ul { padding-left: 1.3em; margin: 0.3em 0; }
+.rte__content ul li { list-style: disc; }
+.rte__content ol { padding-left: 1.3em; margin: 0.3em 0; }
+.rte__content ol li { list-style: decimal; }
+.rte__content blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 0.8em;
+  margin: 0.5em 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* 弹窗底部操作 */
+.editor__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- 改密码弹窗（复用 editor 结构）---------- */
+.dialog-pwd .field { gap: 0.5rem; }
+
+/* ---------- toast ---------- */
+.toast {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 1400;
+  padding: 0.75rem 1.4rem;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 0.88rem;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  pointer-events: none;
+  max-width: 90vw;
+}
+.toast[hidden] { display: block; opacity: 0; }
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast--error {
+  border-color: #ff6b8a;
+  color: #ffb3c4;
+}
+.toast--success {
+  border-color: var(--accent);
+}
+
+/* ---------- 移动端适配 ---------- */
+@media (max-width: 768px) {
+  .admin-bar {
+    flex-wrap: wrap;
+    padding: 0.5rem 0.7rem;
+  }
+  .admin-bar__right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .admin-bar__btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.76rem;
+  }
+  .editor__panel {
+    padding: 1.4rem 1.1rem 1.1rem;
+    max-height: 94vh;
+  }
+  .body[data-mode="admin"] .nav { top: 0; }
+}
